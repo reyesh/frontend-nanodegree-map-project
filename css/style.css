@@ -1,0 +1,14 @@
+#map {
+    height: 100%;
+    width: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;  
+}
+
+#content {
+    position: absolute;
+    top: 20px;
+    left: 10px;
+    width: 300px;
+}
