@@ -9,6 +9,11 @@
     <div id="map"></div>
     <div id="content">
     <h1>Map Notes</h1>
+    <form id="noteform">
+      Say Something:<br>
+      <input type="text" id="note" value="">
+      <button id="submit-btn">Submit</button>
+    </form>
     <ul data-bind="foreach: notes">
       <li data-bind="text: $data.note">
     </ul>   
