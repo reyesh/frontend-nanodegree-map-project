@@ -57,7 +57,7 @@ function createCir(map, pos){
       fillOpacity: 0.25,
       map: map,
       center: pos,
-      radius: 1000
+      radius: 10
     });
 }
 
