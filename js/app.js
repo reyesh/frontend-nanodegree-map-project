@@ -1,5 +1,6 @@
 var pos;
 var map = initMap();
+var markerArr = [];
 
 function note(data) {
 
@@ -105,8 +106,35 @@ function createMrk(pos, note) {
   var marker = new google.maps.Marker({
     position: pos,
     map: map,
-    title: note
+    title: note,
+    draggable: true,
+    animation: google.maps.Animation.DROP
   });
+  //console.log(markerArr[markerArr.length-1]);
+  marker.addListener('click', (function(markerCopy){
+
+    return function(){
+      toggleBounce(markerCopy);
+    }
+
+  })(marker));  
+  //markerArr[markerArr.length-1].setAnimation(google.maps.Animation.BOUNCE);
+  //markerArr.push(marker);
+
+}
+
+function toggleBounce(marker) {
+  if (marker.getAnimation() !== null) {
+    marker.setAnimation(null);
+  } else {
+    marker.setAnimation(google.maps.Animation.BOUNCE);
+    setTimeout(stopAnimation(marker), 1500);
+  }
+}
+
+function stopAnimation(marker){
+  marker.setAnimation(null);
+  return false;
 }
 
 function initMap(){
