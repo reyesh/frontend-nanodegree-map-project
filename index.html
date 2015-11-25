@@ -3,27 +3,54 @@
   <head>
     <meta charset="utf-8">
     <title>P5-1: Neighborhood Map Project</title>
+    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script> 
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
     <link rel="stylesheet" href="css/style.css">
   </head>
   <body>
     <div id="map"></div>
     <div id="content">
     <h1>Map Notes</h1>
+
+    <ul class="nav nav-tabs" data-bind="foreach: folders">
+      <li role="presentation" data-bind="css: { active: $data == $root.chosenFolderId() },
+               click: $root.goToFolder"><a href="#" data-bind="text: $data"></a></li>
+    </ul>
+    <div class="post_body">
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Search for...">
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="button">Find!</button>
+        </span>
+      </div><!-- /input-group -->
+
+    <ul class="posts" data-bind="foreach: noteList">
+      <li data-bind="text: note">
+    </ul>
+    <div>  
+
     <form id="noteform">
       Say Something:<br>
       <input type="text" id="note" value="">
       <button id="submit-btn">Submit</button>
     </form>
-    <ul data-bind="foreach: notes">
-      <li data-bind="text: $data.note">
-    </ul>   
+
+ 
+
     </div>
-    <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/knockout/3.3.0/knockout-min.js"></script>
-    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script> 
     <script src="//maps.googleapis.com/maps/api/js?key=AIzaSyAoSdqFIjWVu4usSM6hDOYxZYjMHnP3JCQ">
     </script>
+    <script src="js/model.js"></script>
     <script src="js/app.js"></script>
   </body>
 </html>

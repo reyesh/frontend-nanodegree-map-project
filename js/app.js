@@ -1,51 +1,91 @@
-var ViewModel = {
+var pos;
+var map = initMap();
 
-	notes: ko.observableArray([]),
-	loaded: ko.observable(false),
-	form: {
-		note: ko.observable(''),
-		pos: ko.observableArray([]),
-		time: ko.observable('')
-	}
+function note(data) {
+
+    var self = this;
+
+    self.note = ko.observable(data.note);
+    self.pos = {
+      "lat": data.pos.lat,
+      "lng": data.pos.lng
+    };
+    self.time = data.time;
+    self.fake = data.fake;
+    //self.meal = ko.observable(initialMeal);
 }
 
-var db = new Firebase('https://map-notes.firebaseio.com/');
-var map;
-var pos;
+function ViewModel() {
+  var self = this;    
+  self.folders = ['Post', 'View'];
+  self.chosenFolderId = ko.observable('View');
+
+  // Behaviours
+  self.goToFolder = function(folder) { self.chosenFolderId(folder); };
+
+  self.noteList = ko.observableArray([]);
+
+  //noteData.forEach(function(noteItem){
+    //self.noteList.push( new note(noteItem));
+  //  createCir(map,noteItem.pos);
+  //});
+  $.getJSON("https://openws.herokuapp.com/map_notes?apiKey=1e63b6cd56a33614f063ed928e35f17a", function(allData) {
+      var ajaxNotes = $.map(allData, function(item){ 
+        item.pos.lat = Number(item.pos.lat);
+        item.pos.lng = Number(item.pos.lng);
+        createMrk(item.pos, item.note);
+        return new note(item); 
+      });
+      self.noteList(ajaxNotes);
+  }); 
+}
+
 
 $(function (){
+  ko.applyBindings(new ViewModel());
 
-    ko.applyBindings(ViewModel);
-    db.on('child_added', GetNotes);
-    //db.on('child_removed', TrackRemoved);
-    map = initMap();
-    mapNotes();
+  $.get("https://openws.herokuapp.com/map_notes?apiKey=1e63b6cd56a33614f063ed928e35f17a")
+    .done(function(data) {
+      console.log("Products retrieved.");
+      data.forEach(function(note){
+        console.log(note.note);
+      })
+      //console.log(data[0].note); // Laptop
+    });  
+/*
+  $.ajax({
+    url: 'https://openws.herokuapp.com/map_notes/5654ddc267ae1d03004ff097?apiKey=1e63b6cd56a33614f063ed928e35f17a',
+    type: 'DELETE',
+    success: function(result) {
+        // Do something with the result
+       console.log("Product deleted successfully");
+       console.log(result);
+    }
+  });  
+*/  
+  /*
+  allnotes.forEach(function(item){
+    console.log(item);
+    $.post("https://openws.herokuapp.com/map_notes?apiKey=1e63b6cd56a33614f063ed928e35f17a", item)
+      .done(function(data){
+        console.log("json obj saved successfully :" + data.note);
+      });
+  }); */
+
+/*
+  $.post("https://openws.herokuapp.com/map_notes?apiKey=1e63b6cd56a33614f063ed928e35f17a", noteData)
+    .done(function(data){
+      console.log("json obj saved successfully");
+      console.log(noteData);   // 547ba6d00b07515f0d4b6c62
+      console.log(data[0].note);  // Laptop
+      console.log(data[0].price); // 2000
+      console.log(data[1]._id);   // 547ba6d00b07515f0d4b6c62
+      console.log(data[2].name);  // Laptop
+      console.log(data[3].price); // 2000         
+    });
+*/
 
 });
-
-function GetNotes(data) {
-
-    var val = data.val();
-    console.log(val);
-
-    ViewModel.notes.push({
-        note: val.note,
-        time: val.time,
-        pos: {
-        	"lat": val.pos.lat,
-        	"lng": val.pos.lng
-        }
-    });
-
-    ViewModel.loaded(true);
-
-    // Maps the notes on the map
-    var noteItem = ViewModel.notes.pop();
-    //console.log("in GetNotes: " + noteItem.note);
-    createCir(map, noteItem.pos);
-    ViewModel.notes.push(noteItem);
-
-}
 
 function createCir(map, pos){
 
@@ -61,11 +101,20 @@ function createCir(map, pos){
     });
 }
 
+function createMrk(pos, note) {
+  var marker = new google.maps.Marker({
+    position: pos,
+    map: map,
+    title: note
+  });
+}
+
 function initMap(){
 
   var map = new google.maps.Map(document.getElementById('map'), {
                       center: {lat: 87.389, lng: -72.094},
                       scrollwheel: false,
+                      mapTypeControl: false,
                       zoom: 12
                       });
 
@@ -100,15 +149,3 @@ function initMap(){
 
   return map;
 }
-
-function loadData (){
-
-  var note = $("#note").val();
-  var date = Date.now();
-  db.push({ note: note, time: date, pos: { lat: pos.lat, lng: pos.lng } });
-  //console.log(pos);
-  return false;
-
-};
-
-$('#noteform').submit(loadData);
