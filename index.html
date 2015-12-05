@@ -34,19 +34,22 @@
       </div><!-- /input-group -->
 
     <ul class="posts" data-bind="foreach: noteList">
-      <li data-bind="text: note">
+      <li data-bind="text: note, click: $root.clickNoteItem">
     </ul>
-    <div>  
+    </div>
 
+    <div>  
     <form id="noteform">
-      Say Something:<br>
       <input type="text" id="note" value="">
-      <button id="submit-btn">Submit</button>
+      <button data-bind="click: save">Post</button>
+    </form>
+    <form id="noteform">
+      <input type="text" id="noteID" value="">
+      <button data-bind="click: deleteNote">Delete</button>
     </form>
 
- 
-
     </div>
+
     <script src="//cdnjs.cloudflare.com/ajax/libs/knockout/3.3.0/knockout-min.js"></script>
     <script src="//maps.googleapis.com/maps/api/js?key=AIzaSyAoSdqFIjWVu4usSM6hDOYxZYjMHnP3JCQ">
     </script>
