@@ -28,7 +28,14 @@ function ViewModel() {
       "key": addedSnap.name()
     };
 
-    self.notes.push(item);
+    //self.notes.push(item);
+    self.notes.push(
+        new google.maps.Marker({
+        position: addedSnap.val().pos,
+        map: map,
+        note: addedSnap.val().note
+        })
+      );
 
     addedSnap.ref().on("value", function(valueSnap) {
 
