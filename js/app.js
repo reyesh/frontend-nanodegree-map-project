@@ -1,65 +1,56 @@
-var ViewModel = {
 
-	notes: ko.observableArray([]),
-	loaded: ko.observable(false),
-	form: {
-		note: ko.observable(''),
-		pos: ko.observableArray([]),
-		time: ko.observable('')
-	}
-}
-
-var db = new Firebase('https://map-notes.firebaseio.com/');
 var map;
-var pos;
+var pos = {};
+
+function ViewModel() {
+
+  var self = this;
+  self.notes = ko.observableArray([]);
+  self.noteToPush = ko.observable("");
+
+  var db = new Firebase('https://map-notes.firebaseio.com/');
+
+  self.pushNote = function(){
+    var d = new Date();
+    var seconds = d.getTime();
+    db.push({"note": this.noteToPush(),
+              "pos": pos,
+              "time": seconds});
+    this.noteToPush("");
+  }
+
+
+  db.on("child_added", function(addedSnap){
+
+    var item = {
+      "note": addedSnap.val().note,
+      "pos": addedSnap.val().pos,
+      "key": addedSnap.name()
+    };
+
+    self.notes.push(item);
+
+    addedSnap.ref().on("value", function(valueSnap) {
+
+      if (valueSnap.val()) {
+          item.content = valueSnap.val().content;
+      } else {
+          self.notes.remove(item);
+      }
+
+    });
+
+  });
+
+};
+
 
 $(function (){
 
-    ko.applyBindings(ViewModel);
-    db.on('child_added', GetNotes);
-    //db.on('child_removed', TrackRemoved);
+    ko.applyBindings( new ViewModel() );
     map = initMap();
-    mapNotes();
 
 });
-
-function GetNotes(data) {
-
-    var val = data.val();
-    console.log(val);
-
-    ViewModel.notes.push({
-        note: val.note,
-        time: val.time,
-        pos: {
-        	"lat": val.pos.lat,
-        	"lng": val.pos.lng
-        }
-    });
-
-    ViewModel.loaded(true);
-
-    // Maps the notes on the map
-    var noteItem = ViewModel.notes.pop();
-    //console.log("in GetNotes: " + noteItem.note);
-    createCir(map, noteItem.pos);
-    ViewModel.notes.push(noteItem);
-
-}
-
-function createCir(map, pos){
-
-	var cityCircle = new google.maps.Circle({
-      strokeColor: '#333E48',
-      strokeOpacity: 0.0,
-      strokeWeight: 0,
-      fillColor: '#D71472',
-      fillOpacity: 0.25,
-      map: map,
-      center: pos,
-      radius: 1000
-    });
-}
 
 function initMap(){
 
@@ -100,15 +91,3 @@ function initMap(){
 
   return map;
 }
-
-function loadData (){
-
-  var note = $("#note").val();
-  var date = Date.now();
-  db.push({ note: note, time: date, pos: { lat: pos.lat, lng: pos.lng } });
-  //console.log(pos);
-  return false;
-
-};
-
-$('#noteform').submit(loadData);

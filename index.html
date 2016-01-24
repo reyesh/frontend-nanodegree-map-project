@@ -9,13 +9,14 @@
     <div id="map"></div>
     <div id="content">
     <h1>Map Notes</h1>
-    <form id="noteform">
-      Say Something:<br>
-      <input type="text" id="note" value="">
-      <button id="submit-btn">Submit</button>
+
+    <form data-bind="submit: pushNote">
+        <input data-bind='value: noteToPush, valueUpdate: "afterkeydown"' />
+        <button type="submit">Post Note</button>
     </form>
+
     <ul data-bind="foreach: notes">
-      <li data-bind="text: $data.note">
+      <li><p data-bind="text: $data.note"></p><p data-bind="text: $data.key"></p></li>
     </ul>   
     </div>
     <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
