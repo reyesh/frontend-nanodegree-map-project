@@ -16,9 +16,10 @@
     </form>
 
     <ul data-bind="foreach: notes">
-      <li><p data-bind="text: $data.note"></p><p data-bind="text: $data.key"></p></li>
+      <li><p data-bind="text: $data.title, click: $parent.infoWinClick"></p><p data-bind="text: $data.key"></p></li>
     </ul>   
     </div>
+
     <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/knockout/3.3.0/knockout-min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>

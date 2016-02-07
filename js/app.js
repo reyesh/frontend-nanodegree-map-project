@@ -7,6 +7,7 @@ function ViewModel() {
   var self = this;
   self.notes = ko.observableArray([]);
   self.noteToPush = ko.observable("");
+  self.currentNote = ko.observable("");
 
   var db = new Firebase('https://map-notes.firebaseio.com/');
 
@@ -25,7 +26,7 @@ function ViewModel() {
     var item = {
       "note": addedSnap.val().note,
       "pos": addedSnap.val().pos,
-      "key": addedSnap.name()
+      "key": addedSnap.key()
     };
 
     //self.notes.push(item);
@@ -33,9 +34,25 @@ function ViewModel() {
         new google.maps.Marker({
         position: addedSnap.val().pos,
         map: map,
-        note: addedSnap.val().note
+        title: addedSnap.val().note
         })
       );
+
+    // pop the last gmap marker from the array to add
+    // listener
+
+    var marker = self.notes.pop();
+
+    marker.addListener('click', function(){
+      var infowindow = new google.maps.InfoWindow({
+                              content: "<h1>"+marker.title+"</h1>",
+                              maxWidth: 200
+                            });  
+      infowindow.open(map, marker);
+    });
+
+    self.notes.push(marker);
+
 
     addedSnap.ref().on("value", function(valueSnap) {
 
@@ -48,6 +65,21 @@ function ViewModel() {
     });
 
   });
+
+  self.infoWinClick = function(clickedNote){
+
+    console.log(clickedNote.title);
+    //infowindow.open(map, marker);
+    var infowindow = new google.maps.InfoWindow({
+      content: "<h1>"+clickedNote.title+"</h1>",
+      maxWidth: 200
+    });     
+
+    infowindow.open(map, clickedNote);
+
+  }
+
+  self.currentNote = ko.observable( self.notes()[0] );
 
 };
 
