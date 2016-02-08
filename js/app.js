@@ -8,6 +8,9 @@ function ViewModel() {
   self.notes = ko.observableArray([]);
   self.noteToPush = ko.observable("");
   self.currentNote = ko.observable("");
+
+  self.currentNote = ko.observable( self.notes()[0] );
+
   self.tabs = ['Search', 'Post'];
   self.chosenTabId = ko.observable('Search');
 
@@ -23,8 +26,14 @@ function ViewModel() {
 
   }
 
-  self.goToTab = function(tab) { self.chosenTabId(tab); console.log(tab); };    
+  self.goToTab = function(tab) { 
+    self.chosenTabId(tab);
+    console.log(tab); 
+  }; 
 
+  self.clickedNote = function(note) {
+    console.log(note);
+  };   
 
   var db = new Firebase('https://map-notes.firebaseio.com/');
 
@@ -83,9 +92,10 @@ function ViewModel() {
 
   });
 
-  self.infoWinClick = function(clickedNote){
+  self.infoWinClick = function(index, clickedNote){
 
-    console.log(clickedNote.title);
+    console.log(index());
+
     //infowindow.open(map, marker);
     var infowindow = new google.maps.InfoWindow({
       content: "<h1>"+clickedNote.title+"</h1>",
@@ -93,12 +103,21 @@ function ViewModel() {
     });     
 
     infowindow.open(map, clickedNote);
-
+    //self.currentNote = ko.observable( self.notes()[clickedNote] );
   }
 
-  self.currentNote = ko.observable( self.notes()[0] );
+  self.indexKOA = function(index){
+    console.log(index);
+  }
+
+  self.infoWinIndexKOA = function(){
+    self.infoWinClick();
+    self.indexKOA();
+  }
 
 };
+
+
 
 
 $(function (){

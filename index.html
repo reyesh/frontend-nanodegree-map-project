@@ -11,28 +11,30 @@
     <div id="map"></div>
     <div id="content">
     <h1>Map Notes</h1>
+    <p>Post any note in your local area</p>
 
     <ul class="nav nav-tabs" data-bind="foreach: tabs">
       <li role="presentation" data-bind="css: { active: $data == $root.chosenTabId() }"><a href="#" data-bind="text: $data, click: $root.goToTab">Search</a></li>
     </ul>
 
-    <div class="input-group" data-bind="visible: ShowWhichTab('Search')">
+    <div class="input-group search-content" data-bind="visible: ShowWhichTab('Search')">
       <input type="text" class="form-control" placeholder="Search for...">
       <span class="input-group-btn">
         <button class="btn btn-default" type="button">Search</button>
       </span>
     </div>
 
-    <div class="input-group" data-bind="visible: ShowWhichTab('Post')">
+    <div class="input-group post-content" data-bind="visible: ShowWhichTab('Post')">
       <input type="text" class="form-control" placeholder="What's on your mind?..." data-bind='value: noteToPush, valueUpdate: "afterkeydown"'>
       <span class="input-group-btn">
         <button class="btn btn-default" type="button" data-bind="click: pushNote">Post</button>
       </span>
     </div>
-
-    <ul data-bind="foreach: notes">
-      <li><p data-bind="text: $data.title, click: $parent.infoWinClick"></p><p data-bind="text: $data.key"></p></li>
-    </ul>   
+    <div class="post-container">
+    <ul class="posts" data-bind="foreach: notes">
+      <li class="post"><p data-bind="text: $data.title, click: $parent.infoWinClick.bind($data,$index)"></p></li>
+    </ul>  
+    </div> 
     </div>
 
     <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
