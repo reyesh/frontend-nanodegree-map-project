@@ -8,6 +8,23 @@ function ViewModel() {
   self.notes = ko.observableArray([]);
   self.noteToPush = ko.observable("");
   self.currentNote = ko.observable("");
+  self.tabs = ['Search', 'Post'];
+  self.chosenTabId = ko.observable('Search');
+
+  self.ShowWhichTab = function(tabName) {
+
+    //console.log("hello2: " + self.chosenTabId());
+
+    if(tabName == self.chosenTabId()) {
+      return ko.observable(true);
+    } else {
+      return ko.observable(false);
+    }
+
+  }
+
+  self.goToTab = function(tab) { self.chosenTabId(tab); console.log(tab); };    
+
 
   var db = new Firebase('https://map-notes.firebaseio.com/');
 
