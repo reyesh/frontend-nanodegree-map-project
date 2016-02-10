@@ -9,10 +9,13 @@ function ViewModel() {
   self.noteToPush = ko.observable("");
   self.currentNote = ko.observable("");
 
-  self.currentNote = ko.observable( self.notes()[0] );
+  self.currentNote = ko.observable();
 
   self.tabs = ['Search', 'Post'];
   self.chosenTabId = ko.observable('Search');
+
+  // created one infowindow variable, only one stays opens
+  var infowindow = new google.maps.InfoWindow(); 
 
   self.ShowWhichTab = function(tabName) {
 
@@ -60,7 +63,9 @@ function ViewModel() {
         new google.maps.Marker({
         position: addedSnap.val().pos,
         map: map,
-        title: addedSnap.val().note
+        title: addedSnap.val().note,
+        selected: ko.observable(false),
+        animation: google.maps.Animation.DROP
         })
       );
 
@@ -70,10 +75,14 @@ function ViewModel() {
     var marker = self.notes.pop();
 
     marker.addListener('click', function(){
-      var infowindow = new google.maps.InfoWindow({
+      /* var infowindow = new google.maps.InfoWindow({
                               content: "<h1>"+marker.title+"</h1>",
                               maxWidth: 200
                             });  
+      */
+      infowindow.setContent( "<h1>"+marker.title+"</h1>" );
+      self.resetSelect();
+      marker.selected(true);     
       infowindow.open(map, marker);
     });
 
@@ -92,27 +101,30 @@ function ViewModel() {
 
   });
 
+  self.resetSelect = function(){
+
+    for(var x=0; x < self.notes().length; x++ ){
+      self.notes()[x].selected(false);
+      console.log(x);
+    }
+
+  }
+
   self.infoWinClick = function(index, clickedNote){
 
-    console.log(index());
+    self.currentNote(self.notes()[index()]);
+
+    // go through the notes array and makes selected variable false
+    self.resetSelect();
+
+    // turns the selected obverable array to true
+    clickedNote.selected(true);
 
     //infowindow.open(map, marker);
-    var infowindow = new google.maps.InfoWindow({
-      content: "<h1>"+clickedNote.title+"</h1>",
-      maxWidth: 200
-    });     
+    infowindow.setContent( "<h1>"+clickedNote.title+"</h1>" );     
 
     infowindow.open(map, clickedNote);
     //self.currentNote = ko.observable( self.notes()[clickedNote] );
-  }
-
-  self.indexKOA = function(index){
-    console.log(index);
-  }
-
-  self.infoWinIndexKOA = function(){
-    self.infoWinClick();
-    self.indexKOA();
   }
 
 };

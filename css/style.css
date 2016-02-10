@@ -16,6 +16,19 @@
 .nav {
 	width: 400px;
 }
+
+.activepost {
+  background-color: #6f5499;
+  color: white;
+}
+
+.post-container li:hover { 
+    background-color: grey;
+}
+
+.post-container li:active { 
+    background-color: #6f5499;
+}
 .post_body{
 	background-color: #fff;
   border: 1px solid #d8d8d8;
@@ -27,6 +40,7 @@
       border-top: 0px solid #000;
 
 }
+
 .posts {
   clear: both;
   list-style: none;
@@ -37,7 +51,6 @@
 }
 
 .posts li {
-  background-color: #fff;
   border: 1px solid #d8d8d8;
   /* padding-top: 10px; */
   padding-left: 20px;
