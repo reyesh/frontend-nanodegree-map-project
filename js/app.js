@@ -83,7 +83,8 @@ function ViewModel() {
         map: map,
         title: addedSnap.val().note,
         selected: ko.observable(false),
-        animation: google.maps.Animation.DROP
+        animation: google.maps.Animation.DROP,
+        fbkey: addedSnap.key()
         })
       );
 

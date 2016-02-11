@@ -29,6 +29,13 @@
 .post-container li:active { 
     background-color: #6f5499;
 }
+.post-container p {
+  display: inline;
+}
+.post-container button {
+  position: absolute;
+  right: 40px;
+}
 .post_body{
 	background-color: #fff;
   border: 1px solid #d8d8d8;
@@ -67,8 +74,8 @@
   border-left: 1px solid #ddd;
   border-right: 1px solid #ddd;
   border-bottom: 1px solid #ddd;
-  overflow: scroll;
-  height: 400px;
+  /* overflow: scroll; 
+  height: 400px; */
 }
 
 .nav {
