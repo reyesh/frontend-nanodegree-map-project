@@ -1,25 +1,30 @@
-
+//global variables
 var map;
 var pos = {};
 
 function ViewModel() {
 
   var self = this;
+  //Main array with the data from the firebase database
   self.notes = ko.observableArray([]);
+
+  //Variable with the new note to be push to the firebase database
   self.noteToPush = ko.observable("");
+
+  //Variable that holds the current note that is clicked on
   self.currentNote = ko.observable("");
 
-  self.currentNote = ko.observable();
-
+  //the names of the tabs in the view
   self.tabs = ['Search', 'Post'];
+
+  //the tab the app defaults too
   self.chosenTabId = ko.observable('Search');
 
-  // created one infowindow variable, only one stays opens
+  //created one infowindow variable, only one stays opens
   var infowindow = new google.maps.InfoWindow(); 
 
+  //function used by the view to determine which tab to show
   self.ShowWhichTab = function(tabName) {
-
-    //console.log("hello2: " + self.chosenTabId());
 
     if(tabName == self.chosenTabId()) {
       return ko.observable(true);
@@ -29,36 +34,49 @@ function ViewModel() {
 
   }
 
+  // function used by the view to select which tab the user wants
   self.goToTab = function(tab) { 
     self.chosenTabId(tab);
-    console.log(tab); 
   }; 
 
+  // function used to debug
   self.clickedNote = function(note) {
     console.log(note);
   };   
 
+  //Firebase database reference
   var db = new Firebase('https://map-notes.firebaseio.com/');
 
+  //function used by view to push note to firebase db
   self.pushNote = function(){
+
+    //get data info for the pushed note
     var d = new Date();
     var seconds = d.getTime();
+
+    //note object use to fb db
     db.push({"note": this.noteToPush(),
               "pos": pos,
               "time": seconds});
+
+    //clears the variable blind to the input textbox in the view
     this.noteToPush("");
   }
 
-
+  // Reading data from fb, "child_added" is triggered once for each initial child, and
+  // again every time a new child is added
   db.on("child_added", function(addedSnap){
 
+    //not in use, was for early debuging
     var item = {
       "note": addedSnap.val().note,
       "pos": addedSnap.val().pos,
       "key": addedSnap.key()
     };
 
-    //self.notes.push(item);
+    //pushes each child into notes observable array as a gmaps marker
+    //title contains the note, and selectec is an observable variable that changes
+    //based on a clicked note from the list in the view.
     self.notes.push(
         new google.maps.Marker({
         position: addedSnap.val().pos,
@@ -69,23 +87,23 @@ function ViewModel() {
         })
       );
 
-    // pop the last gmap marker from the array to add
-    // listener
-
+    //pops the last gmap marker from the array to add an event listener
+    //and infowindow content
     var marker = self.notes.pop();
 
     marker.addListener('click', function(){
-      /* var infowindow = new google.maps.InfoWindow({
-                              content: "<h1>"+marker.title+"</h1>",
-                              maxWidth: 200
-                            });  
-      */
+
       infowindow.setContent( "<h1>"+marker.title+"</h1>" );
+      //reset selected variable from the notes array
       self.resetSelect();
-      marker.selected(true);     
+      //when clicked it's selected
+      marker.selected(true);
+      //how the window opens     
       infowindow.open(map, marker);
+
     });
 
+    //gmap marker pushed backed into notes observable array.
     self.notes.push(marker);
 
 
@@ -99,8 +117,9 @@ function ViewModel() {
 
     });
 
-  });
+  }); //end of db.on("child_added", function(addedSnap){}
 
+  //runs though the notes array to clear out the selected variable
   self.resetSelect = function(){
 
     for(var x=0; x < self.notes().length; x++ ){
@@ -110,28 +129,30 @@ function ViewModel() {
 
   }
 
+  //function that runs when user clicked on the list of notes from the view.
   self.infoWinClick = function(index, clickedNote){
 
+    //sets the currentNote to the one being selected, this isnt being used much.
     self.currentNote(self.notes()[index()]);
 
-    // go through the notes array and makes selected variable false
+    //go through the notes array and makes selected variable false
     self.resetSelect();
 
-    // turns the selected obverable array to true
+    //turns the selected obverable variable to true on the note being clicked
     clickedNote.selected(true);
 
-    //infowindow.open(map, marker);
-    infowindow.setContent( "<h1>"+clickedNote.title+"</h1>" );     
+    //sets the content for the infowindow, the note.
+    infowindow.setContent( "<h1>"+clickedNote.title+"</h1>" );   
 
+    //opens infowindow
     infowindow.open(map, clickedNote);
-    //self.currentNote = ko.observable( self.notes()[clickedNote] );
   }
 
 };
 
 
 
-
+//applys KO binding on document load, and initialize the google map
 $(function (){
 
     ko.applyBindings( new ViewModel() );
@@ -139,6 +160,7 @@ $(function (){
 
 });
 
+//Function that initializing the google map
 function initMap(){
 
   var map = new google.maps.Map(document.getElementById('map'), {
@@ -154,10 +176,6 @@ function initMap(){
         lat: position.coords.latitude,
         lng: position.coords.longitude
       };
-
-      //infoWindow.setPosition(pos);
-      //infoWindow.setContent('Location found.');
-      //map.setCenter(pos);
 
     map.setCenter(pos);
 
