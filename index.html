@@ -32,9 +32,12 @@
     </div>
     <div class="post-container">
     <ul class="posts" data-bind="foreach: notes">
-      <li class="post" data-bind="css: { activepost: $data.selected }"><p data-bind="text: $data.title, click: $parent.infoWinClick.bind($data,$index)"></p><button type="button" class="btn btn-info  btn-xs" aria-label="Left Align">
-  <span class="glyphicon glyphicon glyphicon-remove" aria-hidden="true"></span>
-</button></li>
+      <li class="post" data-bind="css: { activepost: $data.selected }, click: $parent.infoWinClick.bind($data,$index)">
+        <p data-bind="text: $data.title"></p>
+        <button type="button" class="btn btn-info btn-xs" aria-label="Left Align" data-bind="click: $parent.deletePost">
+            <span class="glyphicon glyphicon glyphicon-remove" aria-hidden="true"></span>
+        </button>
+      </li>
     </ul>  
     </div> 
     </div>

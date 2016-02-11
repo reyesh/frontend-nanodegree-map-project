@@ -48,6 +48,11 @@
 
 }
 
+.post {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
 .posts {
   clear: both;
   list-style: none;

@@ -23,6 +23,9 @@ function ViewModel() {
   //created one infowindow variable, only one stays opens
   var infowindow = new google.maps.InfoWindow(); 
 
+  //Firebase database reference
+  var db = new Firebase('https://map-notes.firebaseio.com/');
+
   //function used by the view to determine which tab to show
   self.ShowWhichTab = function(tabName) {
 
@@ -42,10 +45,13 @@ function ViewModel() {
   // function used to debug
   self.clickedNote = function(note) {
     console.log(note);
-  };   
+  };
 
-  //Firebase database reference
-  var db = new Firebase('https://map-notes.firebaseio.com/');
+  self.deletePost = function(note) {
+    console.log("delete: " + note.title);
+    console.log("delete: " + note.fbkey);
+    db.child(note["fbkey"]).remove();
+  };  
 
   //function used by view to push note to firebase db
   self.pushNote = function(){
@@ -105,15 +111,19 @@ function ViewModel() {
     });
 
     //gmap marker pushed backed into notes observable array.
-    self.notes.push(marker);
-
+    self.notes.push(marker);    
 
     addedSnap.ref().on("value", function(valueSnap) {
 
       if (valueSnap.val()) {
-          item.content = valueSnap.val().content;
+          //marker.position = valueSnap.val().pos;
+          console.log(valueSnap.val().pos);
+          marker.title = valueSnap.val().note;
+          marker.selected(false);
+          //marker.fbkey = valueSnap.key();
       } else {
-          self.notes.remove(item);
+          marker.setMap(null);
+          self.notes.remove(marker);
       }
 
     });
@@ -125,14 +135,13 @@ function ViewModel() {
 
     for(var x=0; x < self.notes().length; x++ ){
       self.notes()[x].selected(false);
-      console.log(x);
     }
 
   }
 
   //function that runs when user clicked on the list of notes from the view.
   self.infoWinClick = function(index, clickedNote){
-
+    console.log("infowin: " + clickedNote.title);
     //sets the currentNote to the one being selected, this isnt being used much.
     self.currentNote(self.notes()[index()]);
 
