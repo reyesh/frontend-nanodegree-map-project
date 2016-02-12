@@ -1,9 +1,16 @@
-#map {
+/* #map {
     height: 100%;
     width: 100%;
     left: 0;
     position: absolute;
     top: 0;  
+} */
+body {
+  background-color: grey;
+}
+#map {
+    margin-left: 350px;
+    height: 1100px;
 }
 
 #content {
@@ -20,6 +27,16 @@
 .activepost {
   background-color: #6f5499;
   color: white;
+}
+
+.search-content {
+  padding-left: 23px; 
+  padding-right: 23px;
+}
+
+.post-content {
+  padding-left: 23px; 
+  padding-right: 23px;
 }
 
 .post-container li:hover { 

@@ -113,20 +113,23 @@ function ViewModel() {
     //gmap marker pushed backed into notes observable array.
     self.notes.push(marker);    
 
+    //the check if data ever changes
     addedSnap.ref().on("value", function(valueSnap) {
 
+      //updates the marker if it isn't null
       if (valueSnap.val()) {
           //marker.position = valueSnap.val().pos;
           console.log(valueSnap.val().pos);
           marker.title = valueSnap.val().note;
           marker.selected(false);
           //marker.fbkey = valueSnap.key();
-      } else {
+
+      } else { // else the marker will be turned off, and removed from the array.
           marker.setMap(null);
           self.notes.remove(marker);
       }
 
-    });
+    }); //addedSnap.ref().on("value", function(valueSnap){}
 
   }); //end of db.on("child_added", function(addedSnap){}
 
