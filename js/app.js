@@ -8,6 +8,7 @@ function ViewModel() {
   //Main array with the data from the firebase database
   self.notes = ko.observableArray([]);
   
+  self.numOfNotes = ko.observable(0);
   //Search Array 
   self.searchNotes = ko.observableArray([]);
   self.notes2 = ko.observableArray([]);
@@ -138,7 +139,7 @@ function ViewModel() {
       }
 
     }); //addedSnap.ref().on("value", function(valueSnap){}
-
+      self.numOfNotes(self.notes().length);
   }); //end of db.on("child_added", function(addedSnap){}
 
   //runs though the notes array to clear out the selected variable

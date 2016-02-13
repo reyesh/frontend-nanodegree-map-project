@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>P5-1: Neighborhood Map Project</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css">
@@ -11,8 +11,10 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h1>Map Notes</h1>
-                <p>Post any note in your local area <small>you need to share location to make this work</small></p>
+                <div class="header well">
+                    <h1>Map Notes <span class="badge" data-bind="text: numOfNotes"></span></h1>
+                    <p>Post any note in your local area. <em>You need to share location to make this work</em></p>
+                </div>
             </div>
         </div>
         <div class="row">
@@ -29,7 +31,7 @@
                 </div> 
             </div>
             <div class="col-md-9">
-                
+
                 <div class="tabs">
                     <ul class="nav nav-tabs" data-bind="foreach: tabs">
                       <li role="presentation" data-bind="css: { active: $data == $root.chosenTabId() }"><a href="#" data-bind="text: $data, click: $root.goToTab">Search</a></li>
@@ -49,7 +51,7 @@
                       </span>
                     </div>
                     <div class="input-group post-content" data-bind="visible: ShowWhichTab('About')">
-                        <p>Post any note from your local area on the map! You need to share your location from the browser to fully use this service.<p>
+                        <p>This webapp uses Google API, Firebase API, Bootstrap, KnockoutJS hosted on github. <a href="https://github.com/reyesh/frontend-nanodegree-map-project">Github Repository.</a><p>
                     </div>
 
                 </div>
