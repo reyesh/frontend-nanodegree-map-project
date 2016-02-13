@@ -8,38 +8,61 @@
     <link rel="stylesheet" href="css/style.css">
   </head>
   <body>
-    <div id="map"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Map Notes</h1>
+                <p>Post any note in your local area <small>you need to share location to make this work</small></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="post-container">
+                    <ul class="posts" data-bind="foreach: notes">
+                      <li class="post" data-bind="css: { activepost: $data.selected }, click: $parent.infoWinClick.bind($data,$index)">
+                        <p data-bind="text: $data.title"></p>
+                        <button type="button" class="btn btn-info btn-xs" aria-label="Left Align" data-bind="click: $parent.deletePost">
+                            <span class="glyphicon glyphicon glyphicon-remove" aria-hidden="true"></span>
+                        </button>
+                      </li>
+                    </ul>  
+                </div> 
+            </div>
+            <div class="col-md-9">
+                
+                <div class="tabs">
+                    <ul class="nav nav-tabs" data-bind="foreach: tabs">
+                      <li role="presentation" data-bind="css: { active: $data == $root.chosenTabId() }"><a href="#" data-bind="text: $data, click: $root.goToTab">Search</a></li>
+                    </ul>
+
+                    <div class="input-group search-content" data-bind="visible: ShowWhichTab('Search')">
+                      <input type="search" class="form-control" placeholder="Search for..." data-bind="value: query, valueUpdate: 'keyup'" autocomplete="off">
+                      <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">Search</button>
+                      </span>
+                    </div>
+
+                    <div class="input-group post-content" data-bind="visible: ShowWhichTab('Post')">
+                      <input type="text" class="form-control" placeholder="What's on your mind?..." data-bind='value: noteToPush, valueUpdate: "afterkeydown"'>
+                      <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" data-bind="click: pushNote">Post</button>
+                      </span>
+                    </div>
+                    <div class="input-group post-content" data-bind="visible: ShowWhichTab('About')">
+                        <p>Post any note from your local area on the map! You need to share your location from the browser to fully use this service.<p>
+                    </div>
+
+                </div>
+                <div id="map">
+                </div>
+            </div>
+        </div>
+    </div>
     <div id="content">
-    <h1>Map Notes</h1>
-    <p>Post any note in your local area <small>you need to share location to make this work</small></p>
-
-    <ul class="nav nav-tabs" data-bind="foreach: tabs">
-      <li role="presentation" data-bind="css: { active: $data == $root.chosenTabId() }"><a href="#" data-bind="text: $data, click: $root.goToTab">Search</a></li>
-    </ul>
-
-    <div class="input-group search-content" data-bind="visible: ShowWhichTab('Search')">
-      <input type="text" class="form-control" placeholder="Search for...">
-      <span class="input-group-btn">
-        <button class="btn btn-default" type="button">Search</button>
-      </span>
-    </div>
-
-    <div class="input-group post-content" data-bind="visible: ShowWhichTab('Post')">
-      <input type="text" class="form-control" placeholder="What's on your mind?..." data-bind='value: noteToPush, valueUpdate: "afterkeydown"'>
-      <span class="input-group-btn">
-        <button class="btn btn-default" type="button" data-bind="click: pushNote">Post</button>
-      </span>
-    </div>
-    <div class="post-container">
-    <ul class="posts" data-bind="foreach: notes">
-      <li class="post" data-bind="css: { activepost: $data.selected }, click: $parent.infoWinClick.bind($data,$index)">
-        <p data-bind="text: $data.title"></p>
-        <button type="button" class="btn btn-info btn-xs" aria-label="Left Align" data-bind="click: $parent.deletePost">
-            <span class="glyphicon glyphicon glyphicon-remove" aria-hidden="true"></span>
-        </button>
-      </li>
-    </ul>  
-    </div> 
+ 
+    <ul data-bind="foreach: searchNotes">
+        <li data-bind="text: $data.title"></li>
+    </ul>    
     </div>
 
     <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
@@ -49,5 +72,6 @@
     <script src="//maps.googleapis.com/maps/api/js?key=AIzaSyAoSdqFIjWVu4usSM6hDOYxZYjMHnP3JCQ">
     </script>
     <script src="js/app.js"></script>
+
   </body>
 </html>

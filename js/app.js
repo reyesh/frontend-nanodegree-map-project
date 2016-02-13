@@ -7,6 +7,14 @@ function ViewModel() {
   var self = this;
   //Main array with the data from the firebase database
   self.notes = ko.observableArray([]);
+  
+  //Search Array 
+  self.searchNotes = ko.observableArray([]);
+  self.notes2 = ko.observableArray([]);
+
+
+  //Search query
+  self.query = ko.observable('');
 
   //Variable with the new note to be push to the firebase database
   self.noteToPush = ko.observable("");
@@ -15,7 +23,7 @@ function ViewModel() {
   self.currentNote = ko.observable("");
 
   //the names of the tabs in the view
-  self.tabs = ['Search', 'Post'];
+  self.tabs = ['Search', 'Post', 'About'];
 
   //the tab the app defaults too
   self.chosenTabId = ko.observable('Search');
@@ -140,7 +148,7 @@ function ViewModel() {
       self.notes()[x].selected(false);
     }
 
-  }
+  };
 
   //function that runs when user clicked on the list of notes from the view.
   self.infoWinClick = function(index, clickedNote){
@@ -159,9 +167,30 @@ function ViewModel() {
 
     //opens infowindow
     infowindow.open(map, clickedNote);
-  }
+  };
 
-};
+  self.search = function(value) {
+
+    self.notes2(self.notes.slice(0));
+
+    self.notes.removeAll();
+    
+    ko.utils.arrayForEach(self.notes2(), function(note){
+      //console.log(teacher.name);
+      if(note.title.toLowerCase().indexOf(value.toLowerCase()) >= 0) {
+      //console.log("hi");
+        self.notes.push(note);
+        console.log(note);
+        //viewModel.beers.push(beers[x]);
+      }
+
+    });
+
+  };
+
+  self.query.subscribe(self.search);
+
+}; // end of ViewModel
 
 
 
