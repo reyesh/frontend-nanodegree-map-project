@@ -175,6 +175,7 @@ function ViewModel() {
     infowindow.open(map, clickedNote);
   };
 
+  //Used by the search function to remove and unselect markers during search
   self.deleteObArray = function(ObArray){
     console.log(ObArray().length);
     for(var x=0; x < ObArray().length; x++ ){
