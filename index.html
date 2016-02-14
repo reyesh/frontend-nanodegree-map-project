@@ -13,7 +13,7 @@
             <div class="col-md-12">
                 <div class="header well">
                     <h1>Map Notes <span class="badge" data-bind="text: numOfNotes"></span></h1>
-                    <p>Post any note in your local area. <em>You need to share location to make this work</em></p>
+                    <p>Post any note in your local area anonymously. <em>You need to share location to make this work</em></p>
                 </div>
             </div>
         </div>
@@ -23,7 +23,7 @@
                     <ul class="posts" data-bind="foreach: notes">
                       <li class="post" data-bind="css: { activepost: $data.selected }, click: $parent.infoWinClick.bind($data,$index)">
                         <p data-bind="text: $data.title"></p>
-                        <button type="button" class="btn btn-info btn-xs" aria-label="Left Align" data-bind="click: $parent.deletePost">
+                        <button type="button" class="btn btn-danger btn-xs" aria-label="Left Align" data-bind="click: $parent.deletePost">
                             <span class="glyphicon glyphicon glyphicon-remove" aria-hidden="true"></span>
                         </button>
                       </li>

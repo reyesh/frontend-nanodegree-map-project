@@ -24,9 +24,12 @@ body {
 .nav {
 	width: 100%;
 }
-
+.badge {
+  background-color: #5bc0de;
+}
 .activepost {
-  background-color: #6f5499;
+  background-color: #5bc0de !important;
+  border-border: #46b8da !important;
 }
 
 .search-content {
@@ -54,15 +57,14 @@ body {
   right: 40px;
 }
 .post_body{
-	background-color: #fff;
+	/* background-color: #fff; */
   border: 1px solid #d8d8d8;
   padding-top: 10px;
   padding-left: 20px;
   padding-right: 20px;
   padding-bottom: 10px;
   margin-bottom: 10px;
-      border-top: 0px solid #000;
-
+  border-top: 0px solid #000;
 }
 
 .post {
