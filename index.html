@@ -18,21 +18,10 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-3">
-                <div class="post-container">
-                    <ul class="posts" data-bind="foreach: notes">
-                      <li class="post" data-bind="css: { activepost: $data.selected }, click: $parent.infoWinClick.bind($data,$index)">
-                        <p data-bind="text: $data.title"></p>
-                        <button type="button" class="btn btn-danger btn-xs" aria-label="Left Align" data-bind="click: $parent.deletePost">
-                            <span class="glyphicon glyphicon glyphicon-remove" aria-hidden="true"></span>
-                        </button>
-                      </li>
-                    </ul>  
-                </div> 
-            </div>
-            <div class="col-md-9">
 
+            <div class="col-md-9 col-md-push-3">
                 <div class="tabs">
+
                     <ul class="nav nav-tabs" data-bind="foreach: tabs">
                       <li role="presentation" data-bind="css: { active: $data == $root.chosenTabId() }"><a href="#" data-bind="text: $data, click: $root.goToTab">Search</a></li>
                     </ul>
@@ -50,6 +39,7 @@
                         <button class="btn btn-default" type="button" data-bind="click: pushNote">Post</button>
                       </span>
                     </div>
+
                     <div class="input-group post-content" data-bind="visible: ShowWhichTab('About')">
                         <p>This webapp uses Google API, Firebase API, Bootstrap, KnockoutJS and hosted on github. <a href="https://github.com/reyesh/frontend-nanodegree-map-project">Github Repository.</a><p>
                     </div>
@@ -58,13 +48,21 @@
                 <div id="map">
                 </div>
             </div>
+
+            <div class="col-md-3 col-md-pull-9">
+                <div class="post-container">
+                    <ul class="posts" data-bind="foreach: notes">
+                      <li class="post" data-bind="css: { activepost: $data.selected }, click: $parent.infoWinClick.bind($data,$index)">
+                        <p data-bind="text: $data.title"></p>
+                        <button type="button" class="btn btn-danger btn-xs" aria-label="Left Align" data-bind="click: $parent.deletePost">
+                            <span class="glyphicon glyphicon glyphicon-remove" aria-hidden="true"></span>
+                        </button>
+                      </li>
+                    </ul>  
+                </div> 
+            </div>
+
         </div>
-    </div>
-    <div id="content">
- 
-    <ul data-bind="foreach: searchNotes">
-        <li data-bind="text: $data.title"></li>
-    </ul>    
     </div>
 
     <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>

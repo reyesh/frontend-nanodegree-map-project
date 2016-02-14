@@ -7,12 +7,12 @@ function ViewModel() {
   var self = this;
   //Main array with the data from the firebase database
   self.notes = ko.observableArray([]);
-  
+
+  //Observable variable used for the badge next to the title on the view  
   self.numOfNotes = ko.observable(0);
+
   //Search Array 
   self.searchNotes = ko.observableArray([]);
-  self.notes2 = ko.observableArray([]);
-
 
   //Search query
   self.query = ko.observable('');
@@ -139,7 +139,12 @@ function ViewModel() {
       }
 
     }); //addedSnap.ref().on("value", function(valueSnap){}
+
+      //used for the bage on the view, next to the title
       self.numOfNotes(self.notes().length);
+
+      //copy of notes array used in the search function
+      self.searchNotes(self.notes().slice(0));
   }); //end of db.on("child_added", function(addedSnap){}
 
   //runs though the notes array to clear out the selected variable
@@ -170,25 +175,37 @@ function ViewModel() {
     infowindow.open(map, clickedNote);
   };
 
+  self.deleteObArray = function(ObArray){
+    console.log(ObArray().length);
+    for(var x=0; x < ObArray().length; x++ ){
+      ObArray()[x].setMap(null);
+      ObArray()[x].selected(false);
+    }
+    return ObArray;
+  };
+
+
   self.search = function(value) {
 
-    self.notes2(self.notes.slice(0));
-
+    //remote all notes from the view
+    self.notes = self.deleteObArray(self.notes);
     self.notes.removeAll();
-    
-    ko.utils.arrayForEach(self.notes2(), function(note){
-      //console.log(teacher.name);
+    var marker;
+    //iterate through the copyed observable array 
+    ko.utils.arrayForEach(self.searchNotes(), function(note){
+      //With each note in searchNotes, we check if the query is present
       if(note.title.toLowerCase().indexOf(value.toLowerCase()) >= 0) {
-      //console.log("hi");
+        //if so we push it to the notes obserable array, which gets seen in the view
         self.notes.push(note);
-        console.log(note);
-        //viewModel.beers.push(beers[x]);
-      }
+        marker = self.notes.pop();
+        marker.setMap(map);
+        self.notes.push(marker);
+      } 
 
     });
 
   };
-
+  //subscribes to update on query with a call to the search function 
   self.query.subscribe(self.search);
 
 }; // end of ViewModel
