@@ -33,3 +33,21 @@ jshint
 uglify
 cssmin
 processhtml
+
+##Resources Used
+
+Google Map API doc
+https://developers.google.com/maps/documentation/javascript/tutorial
+
+Firebase API doc
+https://www.firebase.com/docs/web/
+
+Knockout JS doc
+http://knockoutjs.com/documentation/introduction.html
+
+Knockout JS & Firebase CRUD example
+http://jsfiddle.net/hiroshi/NBPcN/
+
+Live search with knockout.js
+http://opensoul.org/2011/06/23/live-search-with-knockoutjs/
+
