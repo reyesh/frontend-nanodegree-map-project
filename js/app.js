@@ -140,7 +140,7 @@ function ViewModel() {
 
     }); //addedSnap.ref().on("value", function(valueSnap){}
 
-      //used for the bage on the view, next to the title
+      //used for the badge on the view, next to the title
       self.numOfNotes(self.notes().length);
 
       //copy of notes array used in the search function
@@ -188,7 +188,7 @@ function ViewModel() {
 
   self.search = function(value) {
 
-    //remote all notes from the view
+    //remove all notes from the view
     self.notes = self.deleteObArray(self.notes);
     self.notes.removeAll();
     var marker;
