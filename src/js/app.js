@@ -1,5 +1,4 @@
-//global variables
-var map;
+//global variable
 var pos = {};
 
 function ViewModel() {
@@ -29,8 +28,8 @@ function ViewModel() {
   //the tab the app defaults too
   self.chosenTabId = ko.observable('Search');
 
-  //created one infowindow variable, only one stays opens
-  var infowindow = new google.maps.InfoWindow(); 
+  //created one infoWindow variable, only one stays opens
+  var infoWindow = new google.maps.InfoWindow(); 
 
   //Firebase database reference
   var db = new Firebase('https://map-notes.firebaseio.com/');
@@ -104,18 +103,18 @@ function ViewModel() {
       );
 
     //pops the last gmap marker from the array to add an event listener
-    //and infowindow content
+    //and infoWindow content
     var marker = self.notes.pop();
 
     marker.addListener('click', function(){
 
-      infowindow.setContent( "<h1>"+marker.title+"</h1>" );
+      infoWindow.setContent( "<h1>"+marker.title+"</h1>" );
       //reset selected variable from the notes array
       self.resetSelect();
       //when clicked it's selected
       marker.selected(true);
       //how the window opens     
-      infowindow.open(map, marker);
+      infoWindow.open(map, marker);
       marker.setAnimation(google.maps.Animation.BOUNCE);
       setTimeout(function(){ 
         marker.setAnimation(null);
@@ -179,11 +178,11 @@ function ViewModel() {
     //turns the selected obverable variable to true on the note being clicked
     clickedNote.selected(true);
 
-    //sets the content for the infowindow, the note.
-    infowindow.setContent( "<h1>"+clickedNote.title+"</h1>" );   
+    //sets the content for the infoWindow, the note.
+    infoWindow.setContent( "<h1>"+clickedNote.title+"</h1>" );   
 
-    //opens infowindow
-    infowindow.open(map, clickedNote);
+    //opens infoWindow
+    infoWindow.open(map, clickedNote);
 
     clickedNote.setAnimation(google.maps.Animation.BOUNCE);
     setTimeout(function(){ 
@@ -233,44 +232,5 @@ function ViewModel() {
 //applys KO binding on document load, and initialize the google map
 $(function (){
 
-    ko.applyBindings( new ViewModel() );
-    map = initMap();
 
 });
-
-//Function that initializing the google map
-function initMap(){
-
-  var map = new google.maps.Map(document.getElementById('map'), {
-                      center: {lat: 87.389, lng: -72.094},
-                      scrollwheel: false,
-                      zoom: 12
-                      });
-
-  // Try HTML5 geolocation.
-  if (navigator.geolocation){
-    navigator.geolocation.getCurrentPosition(function(position) {
-      pos = {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude
-      };
-
-    map.setCenter(pos);
-
-    }, function() {
-      handleLocationError(true, infoWindow, map.getCenter());
-    });
-  } else {
-    // Browser doesn't support Geolocation
-    handleLocationError(false, infoWindow, map.getCenter());
-  }
-
-  function handleLocationError(browserHasGeolocation, infoWindow, pos){
-  infoWindow.setPosition(pos);
-  infoWindow.setContent(browserHasGeolocation ?
-                        'Error: The Geolocation service failed.' :
-                        'Error: Your browser doesn\'t support geolocation.');
-  }
-
-  return map;
-}
