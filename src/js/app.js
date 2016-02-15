@@ -44,7 +44,7 @@ function ViewModel() {
       return ko.observable(false);
     }
 
-  }
+  };
 
   // function used by the view to select which tab the user wants
   self.goToTab = function(tab) { 
@@ -59,7 +59,7 @@ function ViewModel() {
   self.deletePost = function(note) {
     console.log("delete: " + note.title);
     console.log("delete: " + note.fbkey);
-    db.child(note["fbkey"]).remove();
+    db.child(note.fbkey).remove();
   };  
 
   //function used by view to push note to firebase db
@@ -76,7 +76,7 @@ function ViewModel() {
 
     //clears the variable blind to the input textbox in the view
     this.noteToPush("");
-  }
+  };
 
   // Reading data from fb, "child_added" is triggered once for each initial child, and
   // again every time a new child is added
@@ -116,6 +116,17 @@ function ViewModel() {
       marker.selected(true);
       //how the window opens     
       infowindow.open(map, marker);
+      marker.setAnimation(google.maps.Animation.BOUNCE);
+      setTimeout(function(){ 
+        marker.setAnimation(null);
+      }, 750);
+/*
+      if(marker.getAnimation() !== null){
+        marker.setAnimation(null);
+      } else {
+        marker.setAnimation(google.maps.Animation.BOUNCE);
+      }
+*/
 
     });
 
@@ -173,6 +184,12 @@ function ViewModel() {
 
     //opens infowindow
     infowindow.open(map, clickedNote);
+
+    clickedNote.setAnimation(google.maps.Animation.BOUNCE);
+    setTimeout(function(){ 
+        clickedNote.setAnimation(null);
+    }, 750);
+
   };
 
   //Used by the search function to remove and unselect markers during search
@@ -209,7 +226,7 @@ function ViewModel() {
   //subscribes to update on query with a call to the search function 
   self.query.subscribe(self.search);
 
-}; // end of ViewModel
+} // end of ViewModel
 
 
 
