@@ -34,6 +34,10 @@ uglify
 cssmin
 processhtml
 
+All development files are located inside /src directory, the final production file is located on root at /index.html. A single page app which allows it to run on github servers at reyesh.github.io/frontend-nanodegree-map-project/ or http://reye.sh/frontend-nanodegree-map-project/
+
+To make a final development version download the plug ins above. jshint checks for js errors, uglify minifys the javascript, cssmin miniflys the css and processhtml inserts the minified js and css into the /index.html (at root).
+
 ##Resources Used
 
 Google Map API doc
