@@ -1,6 +1,3 @@
-//global variable
-var pos = {};
-
 function ViewModel() {
 
   var self = this;
