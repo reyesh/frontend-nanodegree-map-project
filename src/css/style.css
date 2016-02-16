@@ -18,6 +18,10 @@ body {
 	width: 100%;
 }
 
+.header {
+  height: 125px;
+}
+
 .badge {
   background-color: #5bc0de;
 }
@@ -38,7 +42,7 @@ body {
 }
 
 .post-container { 
-  height: 700px;
+  height: 750px;
   overflow: scroll;
   position: relative;
 }
