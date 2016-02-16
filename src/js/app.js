@@ -29,7 +29,7 @@ function ViewModel() {
   self.chosenTabId = ko.observable('Search');
 
   //created one infoWindow variable, only one stays opens
-  var infoWindow = new google.maps.InfoWindow(); 
+  //var infoWindow = new google.maps.InfoWindow(); 
 
   //Firebase database reference
   var db = new Firebase('https://map-notes.firebaseio.com/');
@@ -37,11 +37,7 @@ function ViewModel() {
   //function used by the view to determine which tab to show
   self.ShowWhichTab = function(tabName) {
 
-    if(tabName == self.chosenTabId()) {
-      return ko.observable(true);
-    } else {
-      return ko.observable(false);
-    }
+      return ko.observable(tabName == self.chosenTabId());
 
   };
 
@@ -49,11 +45,6 @@ function ViewModel() {
   self.goToTab = function(tab) { 
     self.chosenTabId(tab);
   }; 
-
-  // function used to debug
-  self.clickedNote = function(note) {
-    console.log(note);
-  };
 
   self.deletePost = function(note) {
     console.log("delete: " + note.title);

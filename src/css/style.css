@@ -37,6 +37,12 @@ body {
   padding-right: 23px;
 }
 
+.post-container { 
+  height: 700px;
+  overflow: scroll;
+  position: relative;
+}
+
 .post-container li:hover { 
     background-color: #777;
 }
@@ -51,7 +57,7 @@ body {
 
 .post-container button {
   position: absolute;
-  right: 40px;
+  right: 10px;
 }
 
 .post_body{
