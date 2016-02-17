@@ -106,7 +106,7 @@ function ViewModel() {
       marker.setAnimation(google.maps.Animation.BOUNCE);
       setTimeout(function(){ 
         marker.setAnimation(null);
-      }, 750);
+      }, 700);
 /*
       if(marker.getAnimation() !== null){
         marker.setAnimation(null);
