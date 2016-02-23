@@ -37,12 +37,6 @@ body {
   padding-right: 23px;
 }
 
-.post-container { 
-  height: 750px;
-  overflow: scroll;
-  position: relative;
-}
-
 .post-container li:hover { 
     background-color: #777;
 }
@@ -102,19 +96,42 @@ body {
 }
 
 @media screen and (max-width: 500px) {
+
   #map {
     height: 250px;
   }
+
+  .post-container { 
+    overflow: scroll;
+    position: relative;
+  }  
+
 }
 
 @media screen and (min-width: 501px) and (max-width: 991px) {
+
   #map {
     height: 350px;
   }
+
+  .post-container { 
+    height: 772px;
+    overflow: scroll;
+    position: relative;
+  }  
+
 }
 
 @media screen and (min-width: 992px){
+
   .header {
     height: 125px;
   }
+
+  .post-container { 
+    height: 772px;
+    overflow: scroll;
+    position: relative;
+  }  
+
 }
