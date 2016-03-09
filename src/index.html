@@ -20,18 +20,40 @@
   </head>
   <body>
 
-    <nav class="main-nav" id="main-nav" data-bind="foreach: notes">
-      <a href="#" data-bind="text: $data.title, css: { activepost: $data.selected }, click: $parent.infoWinClick.bind($data,$index)"></a>
+    <nav class="main-nav" id="main-nav">
+
+      <div class="input-group search-content">
+        <input type="search" class="form-control" placeholder="Search for..." data-bind="value: query, valueUpdate: 'keyup'" autocomplete="off">
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="button">Search</button>
+        </span>
+      </div>
+
+      <div data-bind="foreach: notes">
+        <div class="note">
+          <a href="#" data-bind="text: $data.title, css: { activepost: $data.selected }, click: $parent.infoWinClick.bind($data,$index)"></a>
+          <button type="button" class="btn btn-danger btn-xs" aria-label="Left Align" data-bind="click: $parent.deletePost">
+            <span class="glyphicon glyphicon glyphicon-remove" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+
     </nav>
+
+    <div class="page-wrap">
+      <header class="main-header">
+        <a href="#main-nav">&#9776;</a>
+        <a href="#" class="close-menu">&#9776;</a>
+        <h1>Map Notes <span class="badge" data-bind="text: numOfNotes"></span></h1>
+        <p>Post any note in your local area anonymously. <em>You need to share location to make this work</em></p>
+      </header>
+    </div>
 
     <div class="container">
         <div class="row">
             <div class="col-md-12">
                 <div class="header well">
-                    <a href="#main-nav">&#9776;</a>
-                    <a href="#" class="close-menu">&#9776;</a>
-                    <h1>Map Notes <span class="badge" data-bind="text: numOfNotes"></span></h1>
-                    <p>Post any note in your local area anonymously. <em>You need to share location to make this work</em></p>
+
                 </div>
             </div>
         </div>

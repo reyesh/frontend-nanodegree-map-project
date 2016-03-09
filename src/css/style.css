@@ -140,6 +140,14 @@ body {
 new nav
 */
 
+.main-header a {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  color: black;
+  font-size: 32px;
+}
+
 .main-nav {
   position: fixed;
   top: 0;
