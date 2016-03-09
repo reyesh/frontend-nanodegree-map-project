@@ -135,3 +135,61 @@ body {
   }  
 
 }
+
+/* 
+new nav
+*/
+
+.main-nav {
+  position: fixed;
+  top: 0;
+  width: 0;
+  height: 100%;
+  background: #222;
+  overflow-y: auto;
+  transition: width 0.3s ease;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+.main-nav a {
+  display: block;
+  border-bottom: 1px solid #666;
+  color: white;
+  padding: 34px;
+}
+
+.main-nav a:hover, .main-nav a:focus {
+  background: #333;
+}
+
+.main-nav:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 4px;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.4));
+}
+
+.close-menu {
+  display: none;
+}
+
+#main-nav:target {
+  width: 30%;
+}
+
+#main-nav:target + .page-wrap {
+  width: 70%;
+}
+
+#main-nav:target + .page-wrap .close-menu {
+  display: block;
+}
+
+#main-nav:target + .page-wrap .main-header {
+  width: 70%;
+  left: 30%;
+}

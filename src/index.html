@@ -19,10 +19,17 @@
     </script>
   </head>
   <body>
+
+    <nav class="main-nav" id="main-nav" data-bind="foreach: notes">
+      <a href="#" data-bind="text: $data.title, css: { activepost: $data.selected }, click: $parent.infoWinClick.bind($data,$index)"></a>
+    </nav>
+
     <div class="container">
         <div class="row">
             <div class="col-md-12">
                 <div class="header well">
+                    <a href="#main-nav">&#9776;</a>
+                    <a href="#" class="close-menu">&#9776;</a>
                     <h1>Map Notes <span class="badge" data-bind="text: numOfNotes"></span></h1>
                     <p>Post any note in your local area anonymously. <em>You need to share location to make this work</em></p>
                 </div>
