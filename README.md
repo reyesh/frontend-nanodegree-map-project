@@ -5,7 +5,9 @@ A single page application featuring a map of your local neighborhood, and anonym
 
 Technologies used to built this project, Knockout JS, jQuery, Google Maps API and Firebase API.
 
-[Current Live Version](http://reye.sh/frontend-nanodegree-map-project/)
+[Current Live Version](https://map-notes-1307.appspot.com/)
+
+This project was previously host using [Github Pages](http://reye.sh/frontend-nanodegree-map-project/) but Geolocation needs https to work.
 
 ##About
 This project introduce me to the idea of using a JavaScript framework to develop single page web applications. The important is understanding the implementation of the Model-View-ViewModel pattern design KnockoOutJS provides.

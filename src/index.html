@@ -4,7 +4,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>P5-1: Neighborhood Map Project</title>
+    <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <script   src="https://code.jquery.com/jquery-1.12.3.min.js"   integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ="   crossorigin="anonymous"></script>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <!-- build:css inline css/style.min.css -->
     <link rel="stylesheet" href="css/style.css">
     <!-- /build -->
@@ -84,11 +90,24 @@
             </div>
         </div>
     </div>
-
+    <div id="modals">
+    </div>
     <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
-    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script> 
     <script type="text/javascript">
+        // error modal
+         var HTMLloadingModal = '<div class="modal fade bs-example-modal-sm" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"><div class="modal-dialog modal-sm" role="document"><div class="modal-content"><div class="modal-header"><h4 class="modal-title" id="myModalLabel">Error</h4></div><div class="modal-body text-center"><p>Github pages does not support https for geolocation to work. The site has been moved to google app engine @ <a href="https://map-notes-1307.appspot.com/">https://map-notes-1307.appspot.com/</a></p></div></div></div></div>';
+ 
+         function initError() {
+ 
+             $("#modals").append(HTMLloadingModal);
+             $('#myModal').modal({
+                  backdrop: 'static',
+                  keyboard: false
+                });
+         }
+
+        $(document).ready(initError());
+
         //Function that initializing the google map
         var map;
         var infoWindow;
@@ -139,13 +158,14 @@
 
         function googleError (){
             console.log("error loading google maps api");
+            initError();
         }
 
     </script>
-    <script async defer src="//maps.googleapis.com/maps/api/js?key=AIzaSyAoSdqFIjWVu4usSM6hDOYxZYjMHnP3JCQ&callback=initMap"
+    <script async defer src="//maps.googleapis.com/maps/api/js?key=AIzaSyBlWRZBHRJmXN2GqzK8TyO8U0_Y53nHIJ4&callback=initMap"
       onerror="googleError()">
     </script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/knockout/3.3.0/knockout-min.js"></script>    
+    <script src="//cdnjs.cloudflare.com/ajax/libs/knockout/3.3.0/knockout-min.js"></script>   
     <!-- build:js inline js/app.min.js -->
     <script src="js/app.js"></script>
     <!-- /build -->
