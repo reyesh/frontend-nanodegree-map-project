@@ -1,6 +1,7 @@
 #Udacity's Front End Web Development Nanodegree
 ##Project 5-1 - Neighborhood Map Project
 > gh-page branch was the previous version hosted on Github Page, the current browser updates fail to suppport geolocation without https, this project has been moved to google app engine and the live link below has been updated.
+
 A single page application featuring a map of your local neighborhood, and anonymous notes posted by your neighbors.
 
 Technologies used to built this project, Knockout JS, jQuery, Google Maps API and Firebase API.
