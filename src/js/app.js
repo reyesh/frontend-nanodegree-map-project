@@ -31,6 +31,22 @@ function ViewModel() {
   //Firebase database reference
   var db = new Firebase('https://map-notes.firebaseio.com/');
 
+  var authDataCopy;
+
+  if(!db.getAuth()){
+    db.authAnonymously(function(error, authData) {
+      if (error) {
+        console.log("Login Failed!", error);
+      } else {
+        authDataCopy = authData;
+        console.log("Authenticated successfully with uid:", authData.uid);
+      }
+    }, { remember: "sessionOnly" });
+  } else {
+    authDataCopy = db.getAuth();
+    console.log("Authenticated with uid:", authDataCopy.uid);
+  }
+
   //function used by the view to determine which tab to show
   self.ShowWhichTab = function(tabName) {
 
@@ -44,9 +60,17 @@ function ViewModel() {
   }; 
 
   self.deletePost = function(note) {
-    console.log("delete: " + note.title);
-    console.log("delete: " + note.fbkey);
-    db.child(note.fbkey).remove();
+    console.log("Deleted with uid:", authDataCopy.uid);
+    console.log("Deleted with uid:", note.uid);
+    if (authDataCopy.uid == note.uid){
+      console.log("deleted note: " + note.title);
+      console.log("deleted key: " + note.fbkey);
+      console.log("deleted uid: " + note.uid);
+      db.child(note.fbkey).remove();
+    } else {
+      console.log("not allowed to delete this post");
+    }
+
   };  
 
   //function used by view to push note to firebase db
@@ -59,7 +83,8 @@ function ViewModel() {
     //note object use to fb db
     db.push({"note": this.noteToPush(),
               "pos": pos,
-              "time": seconds});
+              "time": seconds,
+              'uid': authDataCopy.uid});
 
     //clears the variable blind to the input textbox in the view
     this.noteToPush("");
@@ -86,7 +111,8 @@ function ViewModel() {
         title: addedSnap.val().note,
         selected: ko.observable(false),
         animation: google.maps.Animation.DROP,
-        fbkey: addedSnap.key()
+        fbkey: addedSnap.key(),
+        uid: addedSnap.val().uid
         })
       );
 
