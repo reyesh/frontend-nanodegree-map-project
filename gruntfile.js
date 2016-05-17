@@ -32,7 +32,7 @@ module.exports = function(grunt) {
           },
           dist: {
             files: {
-              'index.html': ['src/index.html']
+              'public/index.html': ['src/index.html']
             }
           }
         } 
