@@ -1,3 +1,54 @@
+//Function that initializing the google map
+var map;
+var infoWindow;
+var pos = {};
+
+function initMap(){
+
+  map = new google.maps.Map(document.getElementById('map'), {
+                    center: {lat: 87.389, lng: -72.094},
+                    scrollwheel: false,
+                    zoom: 12
+                    });
+
+  infoWindow = new google.maps.InfoWindow();
+  //infoWindow.setContent( "asdf" );   
+
+
+  // Try HTML5 geolocation.
+  if (navigator.geolocation){
+    navigator.geolocation.getCurrentPosition(function(position) {
+      pos = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+
+      console.log("geo: " + pos.lat);
+
+    map.setCenter(pos);
+
+    }, function() {
+      handleLocationError(true, map.getCenter());
+    });
+  } else {
+    // Browser doesn't support Geolocation
+    handleLocationError(false, map.getCenter());
+  }
+
+  function handleLocationError(browserHasGeolocation, pos){
+  /*infoWindow.setPosition(pos);
+  infoWindow.setContent(browserHasGeolocation ?
+                        'Error: The Geolocation service failed.' :
+                        'Error: Your browser doesn\'t support geolocation.');*/
+  console.log("Error: Geolocation failed: " + browserHasGeolocation + ": " + pos);
+
+  }
+
+    // applying ko binding after load
+    ko.applyBindings( new ViewModel() );
+}
+
+// KO ViewModel
 function ViewModel() {
 
   var self = this;
@@ -60,17 +111,18 @@ function ViewModel() {
   }; 
 
   self.deletePost = function(note) {
-    console.log("Deleted with uid:", authDataCopy.uid);
-    console.log("Deleted with uid:", note.uid);
-    if (authDataCopy.uid == note.uid){
-      console.log("deleted note: " + note.title);
-      console.log("deleted key: " + note.fbkey);
-      console.log("deleted uid: " + note.uid);
-      db.child(note.fbkey).remove();
-    } else {
-      console.log("not allowed to delete this post");
-    }
+    console.log("deletePost: authdata uid:", authDataCopy.uid);
+    console.log("deletePost: note uid:", note.uid);
 
+    var onComplete = function(error) {
+        if (error) {
+          alert('Synchronization failed');
+        } else {
+          alert('Synchronization succeeded');
+        }
+      };
+
+    db.child(note.fbkey).remove(onComplete);
   };  
 
   //function used by view to push note to firebase db
@@ -242,9 +294,3 @@ function ViewModel() {
 } // end of ViewModel
 
 
-
-//applys KO binding on document load, and initialize the google map
-$(function (){
-
-
-});
