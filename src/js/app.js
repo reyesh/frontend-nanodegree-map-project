@@ -3,6 +3,7 @@ var map;
 var infoWindow;
 var pos;
 var image;
+var customMarker;
 
 function initMap(){
 
@@ -45,15 +46,21 @@ function initMap(){
     map.setCenter(pos);
 
     console.log(pos);
+    if (!customMarker) {
+      console.log("new customMarker")
+        customMarker = new google.maps.Marker({
+        position: pos,
+        map: map,
+        icon: image,
+        zIndex: 10000
+      });
+    } else {
+      console.log("new customMarker pos");
+      customMarker.position = pos;
+    }
 
-    var customMarker = new google.maps.Marker({
-      position: pos,
-      map: map,
-      icon: image,
-      zIndex: 10000
-    })
 
-  };
+  }
 
   function error() {
     // error on watchPosition
