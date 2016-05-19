@@ -1,9 +1,18 @@
 //Function that initializing the google map
 var map;
 var infoWindow;
-var pos = {};
+var pos;
+var image;
 
 function initMap(){
+
+  image = {
+    url: '../images/blue_dot.png',
+    size: null,
+    origin: null,
+    anchor: null,
+    scaledSize: new google.maps.Size(50, 50)
+  };
 
   map = new google.maps.Map(document.getElementById('map'), {
                     center: {lat: 87.389, lng: -72.094},
@@ -16,33 +25,41 @@ function initMap(){
 
 
   // Try HTML5 geolocation.
-  if (navigator.geolocation){
-    navigator.geolocation.getCurrentPosition(function(position) {
-      pos = {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude
-      };
+  if (!navigator.geolocation){
+    //Browser doesn't support gelocation
+    return;
+  } else {
+      navigator.geolocation.watchPosition(success, error);
+  }
 
-      console.log("geo: " + pos.lat);
+  function success(position) {
+
+    console.log("hello");
+    console.log(position);
+
+    pos = {
+      lat: position.coords.latitude,
+      lng: position.coords.longitude
+    };
 
     map.setCenter(pos);
 
-    }, function() {
-      handleLocationError(true, map.getCenter());
-    });
-  } else {
-    // Browser doesn't support Geolocation
-    handleLocationError(false, map.getCenter());
+    console.log(pos);
+
+    var customMarker = new google.maps.Marker({
+      position: pos,
+      map: map,
+      icon: image,
+      zIndex: 10000
+    })
+
+  };
+
+  function error() {
+    // error on watchPosition
   }
 
-  function handleLocationError(browserHasGeolocation, pos){
-  /*infoWindow.setPosition(pos);
-  infoWindow.setContent(browserHasGeolocation ?
-                        'Error: The Geolocation service failed.' :
-                        'Error: Your browser doesn\'t support geolocation.');*/
-  console.log("Error: Geolocation failed: " + browserHasGeolocation + ": " + pos);
-
-  }
+  //load code to saying geolocation is locating
 
     // applying ko binding after load
     ko.applyBindings( new ViewModel() );
