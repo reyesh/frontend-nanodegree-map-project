@@ -27,7 +27,7 @@ function initMap(){
 
   // Try HTML5 geolocation.
   if (!navigator.geolocation){
-    //Browser doesn't support gelocation
+    console.log("Browser doesn't support gelocation");
     return;
   } else {
       navigator.geolocation.watchPosition(success, error);
@@ -35,35 +35,31 @@ function initMap(){
 
   function success(position) {
 
-    console.log("hello");
-    console.log(position);
-
     pos = {
       lat: position.coords.latitude,
       lng: position.coords.longitude
     };
 
-    map.setCenter(pos);
-
-    console.log(pos);
     if (!customMarker) {
-      console.log("new customMarker")
-        customMarker = new google.maps.Marker({
+      console.log("no marker, creating a new customMarker");
+      customMarker = new google.maps.Marker({
         position: pos,
         map: map,
         icon: image,
         zIndex: 10000
       });
     } else {
-      console.log("new customMarker pos");
+      console.log("new position for customMarker");
       customMarker.position = pos;
+      customMarker.icon = image;
     }
 
+    map.setCenter(pos);
 
   }
 
   function error() {
-    // error on watchPosition
+    console.log("error on watchPosition");
   }
 
   //load code to saying geolocation is locating
