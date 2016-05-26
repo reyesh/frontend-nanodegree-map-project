@@ -64,8 +64,10 @@ function initMap(){
 
   //load code to saying geolocation is locating
 
-    // applying ko binding after load
-    ko.applyBindings( new ViewModel() );
+    // applying ko binding when document is ready
+    $( document ).ready(function() {
+        ko.applyBindings( new ViewModel() );
+      });
 }
 
 // KO ViewModel
@@ -125,6 +127,11 @@ function ViewModel() {
 
   };
 
+  self.isUserPost = function(postUID) {
+    var isPost = authDataCopy.uid == postUID;
+    return !isPost;
+  };
+
   // function used by the view to select which tab the user wants
   self.goToTab = function(tab) { 
     self.chosenTabId(tab);
@@ -136,13 +143,19 @@ function ViewModel() {
 
     var onComplete = function(error) {
         if (error) {
-          alert('Synchronization failed');
+          console.log('Synchronization failed');
         } else {
-          alert('Synchronization succeeded');
+          console.log('Synchronization succeeded');
         }
       };
+    //The following code doesnt prevent users from delete data, it's the rules on the
+    //firebase server
+    if(authDataCopy.uid === note.uid){
+      db.child(note.fbkey).remove(onComplete);
+    } else {
+      alert("Can't delete, this is not your post");
+    }
 
-    db.child(note.fbkey).remove(onComplete);
   };  
 
   //function used by view to push note to firebase db
@@ -274,6 +287,9 @@ function ViewModel() {
     setTimeout(function(){ 
         clickedNote.setAnimation(null);
     }, 750);
+
+    map.setCenter(clickedNote.position);
+
 
   };
 

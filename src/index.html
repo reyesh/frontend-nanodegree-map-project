@@ -66,7 +66,7 @@
                       <li class="post" data-bind="css: { activepost: $data.selected }, click: $parent.infoWinClick.bind($data,$index)">
                         <div>
                             <p data-bind="text: $data.title"></p>
-                            <button type="button" class="btn btn-danger btn-xs" aria-label="Left Align" data-bind="click: $parent.deletePost">
+                            <button type="button" class="btn btn-danger btn-xs" aria-label="Left Align" data-bind="css: {btngrey: $parent.isUserPost($data.uid)}, click: $parent.deletePost">
                                 <span class="glyphicon glyphicon glyphicon-remove" aria-hidden="true"></span>
                             </button>
                         </div>

@@ -27,6 +27,11 @@ body {
   border-border: #46b8da !important;
 }
 
+.btngrey {
+  background-color: grey !important;
+  border-color: grey !important;
+}
+
 .search-content {
   padding-left: 23px; 
   padding-right: 23px;
